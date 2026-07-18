@@ -6,17 +6,17 @@
 <title>[Your Name] — Research Profile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F2F1EC;
-    --ink:#1B1B18;
-    --muted:#6B6A62;
-    --pine:#24463B;
-    --pine-soft:#E5EAE6;
-    --brass:#9C7A3C;
-    --rule:#D8D5C9;
-    --paper-raised:#FBFAF6;
+    --paper:#FFFFFF;
+    --ink:#1D1D1F;
+    --muted:#6E6E73;
+    --pine:#1D1D1F;
+    --pine-soft:#F2F2F4;
+    --brass:#3A6CF6;
+    --rule:#E5E5E7;
+    --paper-raised:#FAFAFA;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -27,7 +27,88 @@
     font-size:17px;
     line-height:1.7;
   }
-  a{color:var(--pine); text-decoration:none; border-bottom:1px solid var(--rule);}
+  a{color:var(--brass); text-decoration:none; border-bottom:1px solid var(--rule);}
+
+  /* hero / typewriter greeting */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+    position:relative;
+  }
+  .hero .greeting{
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-weight:150;
+    font-size:clamp(48px, 10vw, 80px);
+    letter-spacing:-0.03em;
+    color:var(--ink);
+    line-height:1;
+    min-height:1.1em;
+  }
+  .hero .greeting .cursor{
+    display:inline-block;
+    width:0.5ch;
+    margin-left:2px;
+    color:var(--brass);
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{
+    0%, 49%{opacity:1;}
+    50%, 100%{opacity:0;}
+  }
+  .hero .sub{
+    margin-top:20px;
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    color:var(--muted);
+    letter-spacing:0.01em;
+  }
+  .hero .scrolldown{
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .hero .scrolldown .arrow{
+    width:1px;
+    height:26px;
+    background:var(--rule);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .scrolldown .arrow::after{
+    content:"";
+    position:absolute;
+    top:-100%;
+    left:0;
+    width:100%;
+    height:100%;
+    background:var(--ink);
+    animation:drop 1.8s ease-in-out infinite;
+  }
+  @keyframes drop{
+    0%{top:-100%;}
+    60%{top:100%;}
+    100%{top:100%;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero .greeting .cursor{animation:none;}
+    .hero .scrolldown .arrow::after{animation:none; top:0;}
+  }
   a:hover{border-bottom-color:var(--pine);}
 
   .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.01em;}
@@ -301,6 +382,12 @@
 </head>
 <body>
 
+<section class="hero" aria-label="Greeting">
+  <div class="greeting"><span id="greeting-text"></span><span class="cursor">&nbsp;</span></div>
+  <p class="sub fill">from Semih</p>
+  <a href="#top" class="scrolldown"><span>Scroll</span><span class="arrow"></span></a>
+</section>
+
 <div class="shell">
 
   <nav class="index" aria-label="Section index">
@@ -309,19 +396,18 @@
       <li><a href="#work"><span class="num">02</span>Work</a></li>
       <li><a href="#research"><span class="num">03</span>Research</a></li>
       <li><a href="#achievement"><span class="num">04</span>Achievement</a></li>
-      <li><a href="#service"><span class="num">05</span>Service</a></li>
-      <li><a href="#education"><span class="num">06</span>Education</a></li>
-      <li><a href="#reference"><span class="num">07</span>Reference</a></li>
-      <li><a href="#publications"><span class="num">08</span>Publications</a></li>
+      <li><a href="#education"><span class="num">05</span>Education</a></li>
+      <li><a href="#reference"><span class="num">06</span>Reference</a></li>
+      <li><a href="#publications"><span class="num">07</span>Publications</a></li>
     </ol>
   </nav>
 
   <main>
 
     <header class="titleblock" id="top">
-      <img src="https://placehold.co/176x176/E5EAE6/24463B?text=Photo" alt="[Your Name]">
-      <h1>[Your Name]</h1>
-      <p class="role">[Your Title] @ <a href="#">[Your Institution]</a></p>
+      <img src="https://placehold.co/176x176/F2F2F4/1D1D1F?text=Photo" alt="[Your Name]">
+      <h1>Semih Vazgecen</h1>
+      <p class="role">PhD Researcher @ <a href="#">The University of Edinburgh</a></p>
       <p class="abstract">
         <span class="label">Abstract</span>
         <span class="fill">[One or two sentences that work like a paper's abstract — what you research, what problem you care about, and what you've built or discovered. Replace this with your own summary.]</span>
@@ -340,10 +426,9 @@
       <a href="#work">02 Work</a>
       <a href="#research">03 Research</a>
       <a href="#achievement">04 Achievement</a>
-      <a href="#service">05 Service</a>
-      <a href="#education">06 Education</a>
-      <a href="#reference">07 Reference</a>
-      <a href="#publications">08 Publications</a>
+      <a href="#education">05 Education</a>
+      <a href="#reference">06 Reference</a>
+      <a href="#publications">07 Publications</a>
     </div>
 
     <section id="about">
@@ -440,16 +525,8 @@
       </ul>
     </section>
 
-    <section id="service">
-      <span class="eyebrow">05 — Service</span>
-      <h2>Service</h2>
-      <div class="prose">
-        <p class="fill">[List peer review, committee, or organizing roles — e.g. "20XX [Journal/Conference] Paper Reviewer" — one per line, most recent first.]</p>
-      </div>
-    </section>
-
     <section id="education">
-      <span class="eyebrow">06 — Education</span>
+      <span class="eyebrow">05 — Education</span>
       <h2>Education</h2>
 
       <div class="edu-entry">
@@ -470,7 +547,7 @@
     </section>
 
     <section id="reference">
-      <span class="eyebrow">07 — Reference</span>
+      <span class="eyebrow">06 — Reference</span>
       <h2>Reference</h2>
       <div class="refgrid">
         <div class="refcard">
@@ -487,7 +564,7 @@
     </section>
 
     <section id="publications">
-      <span class="eyebrow">08 — Publications</span>
+      <span class="eyebrow">07 — Publications</span>
       <h2>Publications</h2>
 
       <div class="pubgroup">
@@ -526,6 +603,58 @@
 </div>
 
 <script>
+  const greetings = [
+    "hello.", "merhaba.", "fàilte.","こんにちは.", "ciao.", "hola.", "hallo.", "안녕하세요.", "你好."
+  ];
+  const greetingEl = document.getElementById('greeting-text');
+  let gIndex = 0;
+
+  function typeWord(word, onDone){
+    let i = 0;
+    (function typeChar(){
+      if (i <= word.length){
+        greetingEl.textContent = word.slice(0, i);
+        i++;
+        setTimeout(typeChar, 55);
+      } else {
+        onDone();
+      }
+    })();
+  }
+
+  function eraseWord(word, onDone){
+    let i = word.length;
+    (function eraseChar(){
+      if (i >= 0){
+        greetingEl.textContent = word.slice(0, i);
+        i--;
+        setTimeout(eraseChar, 30);
+      } else {
+        onDone();
+      }
+    })();
+  }
+
+  function cycle(){
+    const word = greetings[gIndex];
+    typeWord(word, () => {
+      setTimeout(() => {
+        eraseWord(word, () => {
+          gIndex = (gIndex + 1) % greetings.length;
+          cycle();
+        });
+      }, 2000);
+    });
+  }
+
+  if (greetingEl){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      greetingEl.textContent = greetings[0];
+    } else {
+      cycle();
+    }
+  }
+
   const links = document.querySelectorAll('nav.index a');
   const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
   const io = new IntersectionObserver((entries) => {
