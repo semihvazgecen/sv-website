@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Your Name] — Research Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F1EC;
+    --ink:#1B1B18;
+    --muted:#6B6A62;
+    --pine:#24463B;
+    --pine-soft:#E5EAE6;
+    --brass:#9C7A3C;
+    --rule:#D8D5C9;
+    --paper-raised:#FBFAF6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    font-size:17px;
+    line-height:1.7;
+  }
+  a{color:var(--pine); text-decoration:none; border-bottom:1px solid var(--rule);}
+  a:hover{border-bottom-color:var(--pine);}
+
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.01em;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--brass);
+    text-transform:uppercase;
+    margin-bottom:0.6rem;
+    display:block;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:500;
+    color:var(--ink);
+  }
+
+  /* layout shell */
+  .shell{
+    display:grid;
+    grid-template-columns:220px minmax(0,760px);
+    justify-content:center;
+    gap:60px;
+    max-width:1100px;
+    margin:0 auto;
+    padding:64px 24px 120px;
+  }
+
+  /* sticky index nav */
+  nav.index{
+    position:sticky;
+    top:64px;
+    align-self:start;
+    height:fit-content;
+  }
+  nav.index ol{
+    list-style:none;
+    border-left:1px solid var(--rule);
+  }
+  nav.index li{margin:0;}
+  nav.index a{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    border-bottom:none;
+    padding:7px 0 7px 16px;
+    border-left:1px solid transparent;
+    margin-left:-1px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  nav.index a .num{color:var(--brass); margin-right:8px;}
+  nav.index a:hover{color:var(--ink);}
+  nav.index a.active{
+    color:var(--ink);
+    border-left:1px solid var(--pine);
+  }
+  nav.index a.active .num{color:var(--pine);}
+
+  /* header / title block */
+  header.titleblock{
+    padding-bottom:40px;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--rule);
+  }
+  header.titleblock img{
+    width:88px; height:88px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid var(--rule);
+    margin-bottom:24px;
+    background:var(--paper-raised);
+  }
+  header.titleblock h1{
+    font-size:40px;
+    line-height:1.15;
+    margin-bottom:8px;
+  }
+  header.titleblock .role{
+    font-size:18px;
+    color:var(--muted);
+    margin-bottom:20px;
+  }
+  header.titleblock .role a{color:var(--pine);}
+  header.titleblock .abstract{
+    font-size:16px;
+    color:var(--ink);
+    max-width:60ch;
+    margin-bottom:24px;
+  }
+  header.titleblock .abstract .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--brass);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:8px;
+  }
+  .linkrow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+  }
+  .linkrow a{border-bottom:1px solid var(--rule);}
+
+  /* sections */
+  section{
+    margin-bottom:64px;
+    scroll-margin-top:64px;
+  }
+  section h2{
+    font-size:24px;
+    margin-bottom:24px;
+  }
+
+  /* about prose */
+  .prose p{margin-bottom:16px; max-width:64ch;}
+  .prose p:last-child{margin-bottom:0;}
+
+  /* work / research entries */
+  .entry{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:20px;
+    padding:20px 0;
+    border-top:1px solid var(--rule);
+  }
+  .entry:last-child{border-bottom:1px solid var(--rule);}
+  .entry .when{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    padding-top:3px;
+  }
+  .entry h3{font-size:17px; margin-bottom:2px;}
+  .entry .org{
+    font-size:15px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .entry .org a{color:var(--muted); border-bottom:1px solid var(--rule);}
+  .entry ul{padding-left:18px; font-size:15.5px;}
+  .entry li{margin-bottom:4px;}
+
+  /* achievement list */
+  .awardlist{list-style:none;}
+  .awardlist li{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:12px;
+    padding:12px 0;
+    border-top:1px solid var(--rule);
+    align-items:baseline;
+  }
+  .awardlist li:last-child{border-bottom:1px solid var(--rule);}
+  .awardlist .title{font-size:15.5px;}
+  .awardlist .venue{font-size:13px; color:var(--muted);}
+  .awardlist .when{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--brass); white-space:nowrap;}
+
+  /* education */
+  .edu-entry{padding:20px 0; border-top:1px solid var(--rule);}
+  .edu-entry:last-child{border-bottom:1px solid var(--rule);}
+  .edu-entry h3{font-size:17px; margin-bottom:2px;}
+  .edu-entry .meta{font-size:14.5px; color:var(--muted); margin-bottom:10px;}
+  .edu-entry .when{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--brass);}
+  .courses{
+    display:flex; flex-wrap:wrap; gap:6px 8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--pine);
+  }
+  .courses span{
+    background:var(--pine-soft);
+    padding:3px 8px;
+    border-radius:2px;
+  }
+
+  /* reference cards */
+  .refgrid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .refcard{
+    border:1px solid var(--rule);
+    background:var(--paper-raised);
+    padding:16px 18px;
+  }
+  .refcard h3{font-size:15.5px; margin-bottom:2px;}
+  .refcard .role{font-size:13.5px; color:var(--muted); margin-bottom:8px;}
+  .refcard .rel{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--brass);}
+
+  /* publications: numbered reference list */
+  .pubgroup{margin-bottom:32px;}
+  .pubgroup h3{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:400;
+    margin-bottom:12px;
+  }
+  ol.publist{list-style:none; counter-reset:pub;}
+  ol.publist li{
+    counter-increment:pub;
+    display:grid;
+    grid-template-columns:36px 1fr;
+    gap:4px 12px;
+    padding:14px 0;
+    border-top:1px solid var(--rule);
+    font-size:15px;
+  }
+  ol.publist li:last-child{border-bottom:1px solid var(--rule);}
+  ol.publist li::before{
+    content:"[" counter(pub) "]";
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--brass);
+    padding-top:2px;
+  }
+  .pub-title{grid-column:2; font-weight:600; line-height:1.4;}
+  .pub-meta{grid-column:2; font-size:13.5px; color:var(--muted);}
+  .pub-meta .authors{font-style:italic;}
+  .pub-links{grid-column:2; font-family:'IBM Plex Mono', monospace; font-size:11.5px; display:flex; gap:14px; margin-top:2px;}
+
+  footer{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    padding:40px 24px 0;
+  }
+
+  /* placeholder tag styling to flag editable content */
+  .fill{
+    color:var(--brass);
+    background:rgba(156,122,60,0.09);
+    padding:0 3px;
+  }
+
+  /* mobile nav */
+  .mobile-index{display:none;}
+
+  @media (max-width: 860px){
+    .shell{grid-template-columns:1fr; padding:32px 20px 80px;}
+    nav.index{display:none;}
+    .mobile-index{
+      display:flex;
+      overflow-x:auto;
+      gap:4px;
+      border-bottom:1px solid var(--rule);
+      margin-bottom:48px;
+      padding-bottom:8px;
+    }
+    .mobile-index a{
+      font-family:'IBM Plex Mono', monospace;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      padding:6px 10px;
+      border-bottom:none;
+      border:1px solid var(--rule);
+    }
+    .refgrid{grid-template-columns:1fr;}
+    .entry{grid-template-columns:1fr; gap:6px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <nav class="index" aria-label="Section index">
+    <ol>
+      <li><a href="#about"><span class="num">01</span>About</a></li>
+      <li><a href="#work"><span class="num">02</span>Work</a></li>
+      <li><a href="#research"><span class="num">03</span>Research</a></li>
+      <li><a href="#achievement"><span class="num">04</span>Achievement</a></li>
+      <li><a href="#service"><span class="num">05</span>Service</a></li>
+      <li><a href="#education"><span class="num">06</span>Education</a></li>
+      <li><a href="#reference"><span class="num">07</span>Reference</a></li>
+      <li><a href="#publications"><span class="num">08</span>Publications</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <header class="titleblock" id="top">
+      <img src="https://placehold.co/176x176/E5EAE6/24463B?text=Photo" alt="[Your Name]">
+      <h1>[Your Name]</h1>
+      <p class="role">[Your Title] @ <a href="#">[Your Institution]</a></p>
+      <p class="abstract">
+        <span class="label">Abstract</span>
+        <span class="fill">[One or two sentences that work like a paper's abstract — what you research, what problem you care about, and what you've built or discovered. Replace this with your own summary.]</span>
+      </p>
+      <div class="linkrow">
+        <a href="#">CV (PDF)</a>
+        <a href="#">Email</a>
+        <a href="#">Google Scholar</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+      </div>
+    </header>
+
+    <div class="mobile-index">
+      <a href="#about">01 About</a>
+      <a href="#work">02 Work</a>
+      <a href="#research">03 Research</a>
+      <a href="#achievement">04 Achievement</a>
+      <a href="#service">05 Service</a>
+      <a href="#education">06 Education</a>
+      <a href="#reference">07 Reference</a>
+      <a href="#publications">08 Publications</a>
+    </div>
+
+    <section id="about">
+      <span class="eyebrow">01 — About</span>
+      <h2>About me</h2>
+      <div class="prose">
+        <p class="fill">[Write two or three short paragraphs about your background: where you studied, what drew you to your field, and the arc that got you to your current role. Mention an advisor, lab, or mentor who shaped your thinking, and a project or moment that stuck with you.]</p>
+        <p class="fill">[This is also a natural place for a personal detail or two — how you met a collaborator, a formative internship, or what you're curious about outside the lab. Keep it in your own voice.]</p>
+      </div>
+    </section>
+
+    <section id="work">
+      <span class="eyebrow">02 — Work experience</span>
+      <h2>Work experience</h2>
+
+      <div class="entry">
+        <div class="when mono">[Mon YYYY] —<br>Present</div>
+        <div>
+          <h3>[Job Title]</h3>
+          <p class="org">[Company / Lab] @ [City, Country]</p>
+          <ul>
+            <li class="fill">[What you research, build, or lead in this role.]</li>
+            <li class="fill">[A concrete responsibility or contribution.]</li>
+            <li class="fill">[Who you collaborate with, and on what.]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when mono">[Mon YYYY] —<br>[Mon YYYY]</div>
+        <div>
+          <h3>[Prior Role]</h3>
+          <p class="org">[Institution] @ [City, Country], Advisor: <a href="#">[Name]</a></p>
+          <ul>
+            <li class="fill">[Group or lab name, and the topic you focused on.]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when mono">[Mon YYYY] —<br>[Mon YYYY]</div>
+        <div>
+          <h3>[Internship Title]</h3>
+          <p class="org">[Company] @ [City, Country]</p>
+          <ul>
+            <li class="fill">[A short line on the internship project and outcome.]</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <span class="eyebrow">03 — Grad. research</span>
+      <h2>Graduate research</h2>
+      <div class="prose" style="margin-bottom:24px;">
+        <p class="fill">[A short paragraph framing your overall research interest and approach — the thread that connects your projects.]</p>
+      </div>
+
+      <div class="entry">
+        <div class="when mono">Project</div>
+        <div>
+          <h3 class="fill">[Project or Thesis Title]</h3>
+          <p class="org">Related publications</p>
+          <p class="fill" style="font-size:14.5px;">[One line describing what the project does and why it matters.]</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="achievement">
+      <span class="eyebrow">04 — Achievement</span>
+      <h2>Achievement</h2>
+      <ul class="awardlist">
+        <li>
+          <div>
+            <div class="title fill">[Award or grant name]</div>
+            <div class="venue fill">[Awarding body]</div>
+          </div>
+          <div class="when">[Mon YYYY]</div>
+        </li>
+        <li>
+          <div>
+            <div class="title fill">[Award or grant name]</div>
+            <div class="venue fill">[Awarding body]</div>
+          </div>
+          <div class="when">[Mon YYYY]</div>
+        </li>
+        <li>
+          <div>
+            <div class="title fill">[Award or grant name]</div>
+            <div class="venue fill">[Awarding body]</div>
+          </div>
+          <div class="when">[Mon YYYY]</div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="service">
+      <span class="eyebrow">05 — Service</span>
+      <h2>Service</h2>
+      <div class="prose">
+        <p class="fill">[List peer review, committee, or organizing roles — e.g. "20XX [Journal/Conference] Paper Reviewer" — one per line, most recent first.]</p>
+      </div>
+    </section>
+
+    <section id="education">
+      <span class="eyebrow">06 — Education</span>
+      <h2>Education</h2>
+
+      <div class="edu-entry">
+        <h3 class="fill">[Institution Name]</h3>
+        <p class="meta"><span class="fill">[Degree, Field]</span>, GPA [X.X/4.0] &nbsp;·&nbsp; <span class="when">[Mon YYYY] — [Mon YYYY]</span></p>
+        <div class="courses">
+          <span class="fill">[Course 1]</span>
+          <span class="fill">[Course 2]</span>
+          <span class="fill">[Course 3]</span>
+          <span class="fill">[Course 4]</span>
+        </div>
+      </div>
+
+      <div class="edu-entry">
+        <h3 class="fill">[Institution Name]</h3>
+        <p class="meta"><span class="fill">[Degree, Field]</span> &nbsp;·&nbsp; <span class="when">[Mon YYYY] — [Mon YYYY]</span></p>
+      </div>
+    </section>
+
+    <section id="reference">
+      <span class="eyebrow">07 — Reference</span>
+      <h2>Reference</h2>
+      <div class="refgrid">
+        <div class="refcard">
+          <h3 class="fill">[Dr. Reference Name]</h3>
+          <p class="role fill">[Title], [Institution]</p>
+          <p class="rel">Relation: [Advisor, Mon YYYY – Present]</p>
+        </div>
+        <div class="refcard">
+          <h3 class="fill">[Dr. Reference Name]</h3>
+          <p class="role fill">[Title], [Institution]</p>
+          <p class="rel">Relation: [Manager, Mon YYYY – Mon YYYY]</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <span class="eyebrow">08 — Publications</span>
+      <h2>Publications</h2>
+
+      <div class="pubgroup">
+        <h3>Journals</h3>
+        <ol class="publist">
+          <li>
+            <div class="pub-title fill">[Paper title]</div>
+            <div class="pub-meta"><span class="authors fill">[Authors]</span> &nbsp;·&nbsp; [Venue, Year]</div>
+            <div class="pub-links"><a href="#">WEB</a><a href="#">PDF</a></div>
+          </li>
+          <li>
+            <div class="pub-title fill">[Paper title]</div>
+            <div class="pub-meta"><span class="authors fill">[Authors]</span> &nbsp;·&nbsp; [Venue, Year]</div>
+            <div class="pub-links"><a href="#">WEB</a><a href="#">PDF</a></div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="pubgroup">
+        <h3>Conferences</h3>
+        <ol class="publist">
+          <li>
+            <div class="pub-title fill">[Paper title]</div>
+            <div class="pub-meta"><span class="authors fill">[Authors]</span> &nbsp;·&nbsp; [Venue, Year]</div>
+            <div class="pub-links"><a href="#">WEB</a><a href="#">PDF</a></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <footer>
+      <p>© [Your Name] — <span class="fill">[year]</span></p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('nav.index a');
+  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = '#' + entry.target.id;
+      const link = document.querySelector('nav.index a[href="' + id + '"]');
+      if (!link) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => s && io.observe(s));
+</script>
+
+</body>
+</html>
