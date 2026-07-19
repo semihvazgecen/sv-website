@@ -31,48 +31,19 @@
 
   /* hero / typewriter greeting */
   .hero{
-    min-height:100vh;
-    text-align:center;
-    padding:24px;
     position:relative;
+    min-height:calc(110vh - var(--identity-h, 232px));
+    padding:24px;
   }
-  .hero .identity{
-    position:absolute;
-    bottom:130px;
-    left:50%;
-    width:100%;
-    transform:translateX(-50%);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-  }
-  .hero .identity img{
-    width:76px; height:76px;
-    border-radius:50%;
-    object-fit:cover;
-    border:1px solid var(--rule);
-    background:var(--paper-raised);
-    margin-bottom:4px;
-  }
-  .hero .identity h1{
-    font-size:22px;
-    line-height:1.2;
-  }
-  .hero .identity .role{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    color:var(--muted);
-  }
-  .hero .identity .role a{color:var(--ink); border-bottom:1px solid var(--rule);}
   .hero .greeting{
     position:absolute;
-    top:40%;
+    top:35vh;
     left:50%;
-    width:100%;
     transform:translate(-50%, -50%);
+    width:100%;
+    text-align:center;
     font-family:'Fraunces', Georgia, serif;
-    font-weight:400;
+    font-weight:200;
     font-size:clamp(48px, 10vw, 80px);
     letter-spacing:-0.01em;
     color:var(--ink);
@@ -90,11 +61,91 @@
     0%, 49%{opacity:1;}
     50%, 100%{opacity:0;}
   }
-  .hero .scrolldown{
-    position:absolute;
-    bottom:40px;
+
+  /* identity: pins to the top of the viewport once scrolled to, then slides left.
+     "pinned" drives only the slide (transform); once that finishes, JS adds
+     "pinned-layout" to snap the arrangement from a centered stack to photo-left /
+     text-stacked-right, so the reflow never happens mid-slide. */
+  .identity{
+    position:sticky;
+    top:0;
+    z-index:5;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    background:var(--paper);
+    border-bottom:0.5px solid var(--rule);
+  }
+  .identity-inner{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    padding:20px 24px 90px;
+    text-align:center;
+    transform:translateX(0);
+    transition:transform .6s cubic-bezier(.4,0,.2,1);
+  }
+  .identity.pinned .identity-inner{
+    transform:translateX(var(--pin-x, -260px));
+  }
+  .identity.pinned-layout .identity-inner{
+    flex-direction:row;
+    gap:16px;
+    padding:14px 24px;
+    text-align:left;
+  }
+  .identity img{
+    width:100px; height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid var(--rule);
+    background:var(--paper-raised);
+    margin-bottom:4px;
+    flex-shrink:0;
+  }
+  .identity.pinned-layout img{margin-bottom:0;}
+  .identity .text{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+  }
+  .identity.pinned-layout .text{align-items:flex-start; gap:4px;}
+  .identity h1{
+    font-size:22px;
+    line-height:1.2;
+  }
+  .identity.pinned-layout h1{font-size:18px;}
+  .identity .role{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .identity.pinned-layout .role{font-size:12px;}
+  .identity .role a{color:var(--ink); border-bottom:1px solid var(--rule);}
+  .identity .social{
+    display:flex;
+    gap:10px;
+    margin-top:5px;
+  }
+  .identity.pinned-layout .social{margin-top:2px;}
+  .identity .social a{
+    color:var(--muted);
+    border-bottom:none;
+    display:inline-flex;
+    transition:color .15s ease;
+  }
+  .identity .social a:hover{color:var(--ink);}
+  .identity .social svg{width:19px; height:19px; display:block;}
+
+  .scrolldown{
+    position:fixed;
+    bottom:24px;
     left:50%;
     transform:translateX(-50%);
+    z-index:6;
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
     letter-spacing:0.08em;
@@ -105,15 +156,21 @@
     flex-direction:column;
     align-items:center;
     gap:8px;
+    opacity:1;
+    transition:opacity .3s ease;
   }
-  .hero .scrolldown .arrow{
+  .scrolldown.hidden{
+    opacity:0;
+    pointer-events:none;
+  }
+  .scrolldown .arrow{
     width:1px;
     height:26px;
     background:var(--rule);
     position:relative;
     overflow:hidden;
   }
-  .hero .scrolldown .arrow::after{
+  .scrolldown .arrow::after{
     content:"";
     position:absolute;
     top:-100%;
@@ -130,7 +187,7 @@
   }
   @media (prefers-reduced-motion: reduce){
     .hero .greeting .cursor{animation:none;}
-    .hero .scrolldown .arrow::after{animation:none; top:0;}
+    .scrolldown .arrow::after{animation:none; top:0;}
   }
   a:hover{border-bottom-color:var(--pine);}
 
@@ -164,43 +221,10 @@
   /* sticky index nav */
   nav.index{
     position:sticky;
-    top:64px;
+    top:150px;
     align-self:start;
     height:fit-content;
   }
-  nav.index .brand{
-    margin-bottom:24px;
-    padding-bottom:20px;
-    border-bottom:1px solid var(--rule);
-  }
-  nav.index .brand .name{
-    font-family:'Fraunces', Georgia, serif;
-    font-weight:500;
-    font-size:17px;
-    color:var(--ink);
-    line-height:1.25;
-    margin-bottom:6px;
-  }
-  nav.index .brand .role{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.01em;
-    color:var(--muted);
-    line-height:1.5;
-  }
-  nav.index .brand .social{
-    display:flex;
-    gap:0.1px;
-    margin-top:14px;
-  }
-  nav.index .brand .social a{
-    color:var(--muted);
-    border-bottom:none;
-    display:inline-flex;
-    transition:color .15s ease;
-  }
-  nav.index .brand .social a:hover{color:var(--ink);}
-  nav.index .brand .social svg{width:19px; height:19px; display:block;}
   nav.index ol{
     list-style:none;
     border-left:1px solid var(--rule);
@@ -401,38 +425,40 @@
 
 <section class="hero" aria-label="Greeting">
   <div class="greeting"><span id="greeting-text"></span><span class="cursor">&nbsp;</span></div>
-  <div class="identity">
-    <img src="https://placehold.co/176x176/F2F2F4/1D1D1F?text=Photo" alt="Semih Vazgecen">
-    <h1>Semih Vazgecen</h1>
-    <p class="role">PhD Researcher @ <a href="#" target="_blank" rel="noopener noreferrer">University of Edinburgh</a></p>
-  </div>
-  <a href="#about" class="scrolldown"><span>Scroll</span><span class="arrow"></span></a>
 </section>
+
+<div class="identity">
+  <div class="identity-inner">
+  <img src="images/profile.jpg" alt="Semih Vazgecen">
+  <div class="text">
+  <h1>Semih Vazgecen</h1>
+  <p class="role">PhD Researcher @ <a href="#" target="_blank" rel="noopener noreferrer">University of Edinburgh</a></p>
+  <div class="social">
+    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="CV (PDF)" title="CV (PDF)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
+    </a>
+    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Email" title="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+    </a>
+    <a href="https://scholar.google.com/citations?user=jxtfk5sAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.24 14.978 9.5 12 9.5c-2.977 0-5.548 1.74-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/semihvazgecen/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1-.001-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.558V9h3.556v11.452z"/></svg>
+    </a>
+    <a href="https://github.com/semihvazgecen" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.833.092-.647.35-1.088.636-1.338-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.026 2.747-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.337 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+    </a>
+  </div>
+  </div>
+  </div>
+</div>
+
+<a href="#about" class="scrolldown"><span>Scroll</span><span class="arrow"></span></a>
 
 <div class="shell">
 
   <nav class="index" aria-label="Section index">
-    <div class="brand">
-      <div class="name">Semih Vazgecen</div>
-      <div class="role">PhD Researcher<br>University of Edinburgh</div>
-      <div class="social">
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="CV (PDF)" title="CV (PDF)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Email" title="Email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.24 14.978 9.5 12 9.5c-2.977 0-5.548 1.74-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/semihvazgecen/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1-.001-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.558V9h3.556v11.452z"/></svg>
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.833.092-.647.35-1.088.636-1.338-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.747-1.026 2.747-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.337 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-        </a>
-      </div>
-    </div>
     <ol>
       <li><a href="#about"><span class="num">01</span>About</a></li>
       <li><a href="#work"><span class="num">02</span>Work</a></li>
@@ -459,9 +485,9 @@
     <div class="mobile-links">
       <a href="#" target="_blank" rel="noopener noreferrer">CV (PDF)</a>
       <a href="#" target="_blank" rel="noopener noreferrer">Email</a>
-      <a href="#" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+      <a href="https://scholar.google.com/citations?user=jxtfk5sAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
       <a href="https://www.linkedin.com/in/semihvazgecen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/semihvazgecen" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
 
     <section id="about">
@@ -686,6 +712,59 @@
     } else {
       cycle();
     }
+  }
+
+  const heroEl = document.querySelector('.hero');
+  const identityEl = document.querySelector('.identity');
+  const identityInnerEl = document.querySelector('.identity-inner');
+  const navIndexEl = document.querySelector('nav.index');
+  const scrolldownEl = document.querySelector('.scrolldown');
+  if (heroEl && identityEl){
+    const togglePinned = () => {
+      const pinned = window.scrollY >= heroEl.offsetHeight;
+      identityEl.classList.toggle('pinned', pinned);
+      if (scrolldownEl) scrolldownEl.classList.toggle('hidden', window.scrollY > 40);
+    };
+    const updateIdentityHeightVar = () => {
+      const wasPinned = identityEl.classList.contains('pinned');
+      const wasPinnedLayout = identityEl.classList.contains('pinned-layout');
+      identityEl.classList.remove('pinned', 'pinned-layout');
+      document.documentElement.style.setProperty('--identity-h', (identityEl.offsetHeight + 140) + 'px');
+      identityEl.classList.toggle('pinned', wasPinned);
+      identityEl.classList.toggle('pinned-layout', wasPinnedLayout);
+    };
+    const computePinOffset = () => {
+      if (!navIndexEl) return;
+      const prevTransition = identityInnerEl.style.transition;
+      const wasPinned = identityEl.classList.contains('pinned');
+      const wasPinnedLayout = identityEl.classList.contains('pinned-layout');
+      identityInnerEl.style.transition = 'none';
+      identityEl.classList.add('pinned', 'pinned-layout');
+      identityEl.style.setProperty('--pin-x', '0px');
+      void identityInnerEl.offsetWidth;
+      const navLeft = navIndexEl.getBoundingClientRect().left;
+      const imgLeft = identityEl.querySelector('img').getBoundingClientRect().left;
+      identityEl.style.setProperty('--pin-x', (navLeft - imgLeft) + 'px');
+      identityEl.classList.toggle('pinned', wasPinned);
+      identityEl.classList.toggle('pinned-layout', wasPinnedLayout);
+      void identityInnerEl.offsetWidth;
+      identityInnerEl.style.transition = prevTransition;
+    };
+    identityEl.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      identityEl.classList.toggle('pinned-layout', identityEl.classList.contains('pinned'));
+    });
+    updateIdentityHeightVar();
+    computePinOffset();
+    togglePinned();
+    if (identityEl.classList.contains('pinned')){
+      identityEl.classList.add('pinned-layout');
+    }
+    if (document.fonts && document.fonts.ready){
+      document.fonts.ready.then(() => { updateIdentityHeightVar(); computePinOffset(); togglePinned(); });
+    }
+    window.addEventListener('scroll', togglePinned, { passive: true });
+    window.addEventListener('resize', () => { updateIdentityHeightVar(); computePinOffset(); togglePinned(); });
   }
 
   const links = document.querySelectorAll('nav.index a');
