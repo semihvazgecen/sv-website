@@ -536,9 +536,9 @@
       padding-left:max(16px, env(safe-area-inset-left));
       gap:10px;
     }
-    .topbar .role{display:none;}
-    .topbar .social{gap:10px;}
-    .topbar .social a.secondary{display:none;} /* CV + Email live in the menu */
+    /* icons live in the navigation menu on small phones; the freed space
+       lets the role line show under the name */
+    .topbar .social{display:none;}
   }
 
   @media (prefers-reduced-motion: reduce){
