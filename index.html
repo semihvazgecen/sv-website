@@ -808,11 +808,7 @@
   }
 
   if (greetingEl){
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      greetingEl.textContent = greetings[0];
-    } else {
       cycle();
-    }
   }
 
   /* Topbar: shown when the identity block has scrolled above the viewport.
